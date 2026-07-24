@@ -1,0 +1,36 @@
+# Синхронізація та налаштування ОС
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Редактори та IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.tmp
+.bak
+
+# Кеші браузерів та тимчасові файли
+.sass-cache/
+.eslintcache
+*.log
+
+# Збірки та залежності (на майбутнє, якщо додамо)
+node_modules/
+dist/
+build/
+coverage/
+
+# Локальні конфігурації
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
