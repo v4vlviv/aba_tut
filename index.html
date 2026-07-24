@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Крош допомагає Софійці рахувати!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dashboard Screen -->
+  <div id="dashboard-screen" class="screen active">
+    <h1>Обери гру!</h1>
+    
+    <div class="games-grid">
+      <!-- Математика з Крошем -->
+      <div class="game-card" onclick="app.launchGame('krosh')">
+        <img src="assets/image1.png" alt="Математика">
+        <div class="game-card-info">
+          <h2>Математика</h2>
+          <p>Рахуємо з Крошем</p>
+        </div>
+        <div class="play-icon">▶️</div>
+      </div>
+
+      <!-- Логіка з Їжачком -->
+      <div class="game-card disabled">
+        <div class="game-icon">🦔</div>
+        <div class="game-card-info">
+          <h2>Логіка</h2>
+          <p>З Їжачком</p>
+        </div>
+        <div class="badge">Скоро</div>
+      </div>
+
+      <!-- Кольори з Нюшею -->
+      <div class="game-card disabled">
+        <div class="game-icon">🐷</div>
+        <div class="game-card-info">
+          <h2>Кольори</h2>
+          <p>З Нюшею</p>
+        </div>
+        <div class="badge">Скоро</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating background decorations -->
+  <div class="background-decorations">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <!-- Confetti canvas overlay -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Main premium game container -->
+  <div class="game-viewport" id="game-container">
+    <div class="slides-wrapper">
+
+      <!-- Слайд 1: Обкладинка -->
+      <div class="slide-item active" id="slide-1" style="background-image: url('assets/image1.png');">
+        <!-- Текстова латка для імені "Софійці" -->
+        <div class="text-patch patch-sign" style="position: absolute; left: 42%; top: 29.5%; width: 38%; height: 6%; font-size: 5cqi; font-weight: 800;">дітям</div>
+        
+        <!-- Текстова латка для "Привіт, Софійко!" у хмарці -->
+        <div class="text-patch patch-bubble" style="position: absolute; left: 45%; top: 50%; width: 48%; height: 7%; font-size: 3.5cqi; font-weight: 800;">Привіт, друже!</div>
+
+        <!-- Кнопка "ПОЧАТИ" -->
+        <button class="overlay-element btn-start" id="start-game" style="left: 49.5%; top: 79.6%; width: 47%; height: 15.1%; background: rgba(230, 57, 124, 0.05); border: 2px solid transparent;"></button>
+      </div>
+
+      <!-- Слайд 2: Порахуй кульки -->
+      <div class="slide-item" id="slide-2" style="background-image: url('assets/image2.png?v=5');">
+        <!-- Кнопка-підказка, що перекриває оригінальний напис -->
+        <div id="s2-yellow-cover" style="position: absolute; left: 34%; top: 88.5%; width: 62%; height: 11.5%; background: linear-gradient(180deg, #fde047 0%, #eab308 100%); border: 3px solid #fef08a; border-radius: 30px; box-shadow: 0 4px 8px rgba(234, 179, 8, 0.5); display: flex; justify-content: center; align-items: center; color: #7c3aed; font-size: 3.8cqi; font-weight: 800; z-index: 4;">⭐ Вибери цифру!</div>
+        
+        <!-- Кнопки варіантів відповідей -->
+        
+        <!-- Кнопки варіантів відповідей -->
+        <button class="overlay-element invisible-btn" data-correct="false" style="left: 36.5%; top: 69.9%; width: 17.7%; height: 15.9%;"></button>
+        <button class="overlay-element invisible-btn" id="s2-correct" data-correct="true" style="left: 56.8%; top: 69.9%; width: 17.7%; height: 15.9%;"></button>
+        <button class="overlay-element invisible-btn" data-correct="false" style="left: 77.6%; top: 69.9%; width: 17.7%; height: 15.9%;"></button>
+
+        <!-- Кнопка "Далі" (з'являється після правильної відповіді) -->
+        <button class="btn-next" id="s2-next" style="left: 50%; top: 83%; width: 34%; height: 10%; transform: translateX(-50%); display: none;">Далі ➔</button>
+      </div>
+
+      <!-- Слайд 3: Скільки яблук (Виправлений) -->
+      <div class="slide-item" id="slide-3" style="background-image: url('assets/image3.png');">
+        <!-- Накладні кнопки 3, 4, 5 поверх оригінальних 3, 5, 7 -->
+        <button class="overlay-element card-btn card-btn-3" data-val="3" data-correct="false" style="left: 37.5%; top: 78.8%; width: 17.7%; height: 15.9%;">3</button>
+        <button class="overlay-element card-btn card-btn-4" id="s3-correct" data-val="4" data-correct="true" style="left: 58.3%; top: 78.8%; width: 17.7%; height: 15.9%;">4</button>
+        <button class="overlay-element card-btn card-btn-5" data-val="5" data-correct="false" style="left: 79.2%; top: 78.8%; width: 17.7%; height: 15.9%;">5</button>
+
+        <!-- Кнопка "Далі" -->
+        <button class="btn-next" id="s3-next" style="left: 50%; top: 81.8%; width: 34%; height: 10%; transform: translateX(-50%); display: none;">Далі ➔</button>
+      </div>
+
+      <!-- Слайд 4: Яке число більше -->
+      <div class="slide-item" id="slide-4" style="background-image: url('assets/image4.png');">
+        <!-- Відображення знака < в кружечку -->
+        <div class="operator-fill" id="s4-op-slot" style="left: 19.8%; top: 37.6%; width: 18.2%; height: 14.2%; display: none;">&lt;</div>
+
+        <!-- Кнопки варіантів знаків -->
+        <button class="overlay-element invisible-btn" data-correct="false" style="left: 6.8%; top: 72.6%; width: 24.5%; height: 20.8%;"></button>
+        <button class="overlay-element invisible-btn" id="s4-correct" data-correct="true" style="left: 35.9%; top: 72.6%; width: 24.5%; height: 20.8%;"></button>
+        <button class="overlay-element invisible-btn" data-correct="false" style="left: 65.1%; top: 72.6%; width: 24.5%; height: 20.8%;"></button>
+
+        <!-- Кнопка "Далі" -->
+        <button class="btn-next" id="s4-next" style="left: 50%; top: 78%; width: 34%; height: 10%; transform: translateX(-50%); display: none;">Далі ➔</button>
+      </div>
+
+      <!-- Слайд 5: Продовж ряд -->
+      <div class="slide-item" id="slide-5" style="background-image: url('assets/image5.png');">
+        <!-- Картки, що заповнюють пусті клітинки після вибору -->
+        <div class="filled-card c4" id="s5-blank1" style="left: 61.5%; top: 22.1%; width: 15.6%; height: 15.9%; display: none;">4</div>
+        <div class="filled-card c5" id="s5-blank2" style="left: 80.2%; top: 22.1%; width: 15.6%; height: 15.9%; display: none;">5</div>
+
+        <!-- Кнопки відповідей: 4 (початкова правильна), 5, 6 -->
+        <button class="overlay-element invisible-btn" id="s5-btn-left" style="left: 39.6%; top: 52.2%; width: 15.6%; height: 15.9%;" data-val="4"></button>
+        <button class="overlay-element invisible-btn" id="s5-btn-mid" style="left: 60.4%; top: 52.2%; width: 15.6%; height: 15.9%;" data-val="5"></button>
+        <button class="overlay-element invisible-btn" id="s5-btn-right" style="left: 81.3%; top: 52.2%; width: 15.6%; height: 15.9%;" data-val="6"></button>
+
+        <!-- Кнопка "Далі" -->
+        <button class="btn-next" id="s5-next" style="left: 50%; top: 52.2%; width: 34%; height: 10%; transform: translateX(-50%); display: none;">Далі ➔</button>
+      </div>
+
+      <!-- Слайд 6: Де більше ягід -->
+      <div class="slide-item" id="slide-6" style="background-image: url('assets/image6.png');">
+        <!-- Кнопки ЛІВОРУЧ та ПРАВОРУЧ -->
+        <button class="overlay-element invisible-btn" id="s6-correct" data-correct="true" style="left: 4.2%; top: 80.5%; width: 33.3%; height: 14.2%;"></button>
+        <button class="overlay-element invisible-btn" data-correct="false" style="left: 62.5%; top: 80.5%; width: 33.3%; height: 14.2%;"></button>
+
+        <!-- Кнопка "Далі" -->
+        <button class="btn-next" id="s6-next" style="left: 50%; top: 82.5%; width: 34%; height: 10%; transform: translateX(-50%); display: none;">Далі ➔</button>
+      </div>
+
+      <!-- Слайд 7: Покажи стільки пальчиків -->
+      <div class="slide-item" id="slide-7" style="background-image: url('assets/image7.png?v=3');">
+        
+        <!-- Кнопка взаємодії "Я показав! ✋" -->
+        <button class="btn-next" id="s7-done" style="left: 34.4%; top: 81.4%; width: 41.7%; height: 14.2%; border: 3px solid white; background: var(--btn-purple); font-size: 3.5cqi; box-shadow: 0 6px 12px rgba(139, 92, 246, 0.4); border-radius: 20px;">Я показала! ✋</button>
+        
+        <!-- Кнопка "Далі" -->
+        <button class="btn-next" id="s7-next" style="left: 34.4%; top: 81.4%; width: 41.7%; height: 14.2%; border: 3px solid white; background: var(--btn-green); font-size: 3.5cqi; box-shadow: 0 6px 12px rgba(74, 222, 128, 0.4); border-radius: 20px; display: none;">Далі ➔</button>
+      </div>
+
+      <!-- Слайд 8: Фінал -->
+      <div class="slide-item" id="slide-8" style="background-image: url('assets/image8.png');">
+        <!-- Текстова латка для гендерного закінчення "попрацювала!" -->
+        <div class="text-patch patch-bubble" style="position: absolute; left: 10%; top: 17%; width: 80%; height: 7%; background: #d7f4ff; color: #f43f5e; font-size: 5cqi; font-weight: 800; border-radius: 5px;">супер робота!</div>
+        
+        <!-- Кнопка рестарту поверх нижнього напису -->
+        <button class="overlay-element invisible-btn" id="restart-game" style="left: 7.8%; top: 79.6%; width: 83.3%; height: 17.7%;" title="На головну"></button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="game-info">
+    Допоможи Крошу та його друзям розв'язати всі завдання! 🌟
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

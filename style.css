@@ -1,0 +1,482 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+:root {
+  --bg-gradient: linear-gradient(180deg, #dff9ff 0%, #c1f0fa 100%);
+  --btn-font: 'Nunito', sans-serif;
+  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.12), 0 5px 15px rgba(0, 0, 0, 0.06);
+  --shadow-active: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --border-radius: 24px;
+  
+  /* Color themes for buttons */
+  --btn-blue: #1e7ec8;
+  --btn-pink: #e6397c;
+  --btn-green: #4f9a2a;
+  --btn-orange: #f59e0b;
+  --btn-purple: #8b5cf6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Floating clouds animation in background */
+.background-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 100px;
+  filter: blur(4px);
+  animation: float 25s linear infinite;
+}
+
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
+.cloud-1 {
+  width: 120px;
+  height: 40px;
+  top: 15%;
+  left: -150px;
+  animation-duration: 35s;
+}
+.cloud-1::before { width: 50px; height: 50px; top: -20px; left: 15px; }
+.cloud-1::after { width: 70px; height: 70px; top: -35px; right: 15px; }
+
+.cloud-2 {
+  width: 180px;
+  height: 60px;
+  top: 55%;
+  left: -200px;
+  animation-duration: 45s;
+  animation-delay: 10s;
+}
+.cloud-2::before { width: 80px; height: 80px; top: -35px; left: 25px; }
+.cloud-2::after { width: 100px; height: 100px; top: -50px; right: 25px; }
+
+.cloud-3 {
+  width: 100px;
+  height: 35px;
+  top: 30%;
+  left: -120px;
+  animation-duration: 28s;
+  animation-delay: 5s;
+}
+.cloud-3::before { width: 40px; height: 40px; top: -15px; left: 10px; }
+.cloud-3::after { width: 50px; height: 50px; top: -25px; right: 10px; }
+
+@keyframes float {
+  0% { transform: translateX(-200px); }
+  100% { transform: translateX(calc(100vw + 200px)); }
+}
+
+/* App Container */
+.game-viewport {
+  position: relative;
+  z-index: 10;
+  width: 90vw;
+  max-width: 420px;
+  height: calc(90vw * (452 / 384));
+  max-height: 494px; /* 420 * 452 / 384 */
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-premium);
+  overflow: hidden;
+  border: 8px solid white;
+  transition: transform 0.3s ease;
+  container-type: inline-size;
+}
+
+@media (max-height: 600px) {
+  .game-viewport {
+    height: 75vh;
+    width: calc(75vh * (384 / 452));
+  }
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Slides container */
+.slides-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.slide-item.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Overlay elements */
+.overlay-element {
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+}
+
+/* Pulse animation for Start button */
+@keyframes startPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230, 57, 124, 0.6); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(230, 57, 124, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230, 57, 124, 0); }
+}
+
+.btn-start {
+  border-radius: 30px;
+  animation: startPulse 2s infinite;
+}
+
+.btn-start:hover {
+  background-color: var(--btn-hover);
+  transform: scale(1.05);
+}
+
+/* Dashboard Styles */
+#dashboard-screen {
+  position: absolute;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(135deg, #a7f3d0, #93c5fd);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5vh;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+  overflow-y: auto;
+}
+
+#dashboard-screen h1 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  font-size: 8vh;
+  margin-bottom: 5vh;
+}
+
+.games-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.game-card {
+  background: white;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  border: 4px solid transparent;
+}
+
+.game-card:hover:not(.disabled) {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+  border-color: #3b82f6;
+}
+
+.game-card.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.game-card img {
+  width: 80px; height: 80px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+}
+
+.game-card .game-icon {
+  width: 80px; height: 80px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  border: 2px solid #e2e8f0;
+}
+
+.game-card-info {
+  flex: 1;
+}
+
+.game-card-info h2 {
+  margin: 0; font-size: 1.5rem; color: #1e40af;
+}
+
+.game-card-info p {
+  margin: 5px 0 0 0; font-size: 1rem; color: #64748b;
+}
+
+.game-card .play-icon {
+  font-size: 2rem;
+}
+
+.game-card .badge {
+  position: absolute;
+  top: -10px; right: -10px;
+  background: #ef4444; color: white;
+  padding: 4px 10px; border-radius: 12px;
+  font-size: 0.8rem; font-weight: bold;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+}
+
+/* Text Patches */
+.text-patch {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+
+.patch-sign {
+  background: #ffe3a9; /* Match wooden board color */
+  color: #fb7185; /* Match pink text */
+  border-radius: 5px;
+  transform: rotate(-1deg);
+}
+
+.patch-bubble {
+  background: white;
+  color: #3b2a5c;
+}
+
+.btn-start:active {
+  transform: scale(0.95);
+}
+
+/* Invisible overlay buttons (for buttons already styled in the image) */
+.invisible-btn {
+  border-radius: 12px;
+}
+
+.invisible-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.invisible-btn:active {
+  transform: scale(0.95);
+}
+
+/* Custom styled card buttons (Slide 3) */
+.card-btn {
+  background: white;
+  border: 3px solid #e1f0f5;
+  border-radius: 16px;
+  font-family: var(--btn-font);
+  font-size: 6.5cqi; /* Responsive text size based on container width */
+  font-weight: 900;
+  box-shadow: 0 6px 0 #d1e2e8, 0 8px 16px rgba(0,0,0,0.06);
+  transform: translateY(0);
+}
+
+/* Specific text colors for Slide 3 buttons */
+.card-btn-3 { color: var(--btn-blue); }
+.card-btn-4 { color: var(--btn-pink); }
+.card-btn-5 { color: var(--btn-green); }
+
+.card-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 0 #d1e2e8, 0 12px 20px rgba(0,0,0,0.08);
+}
+
+.card-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #d1e2e8, 0 4px 6px rgba(0,0,0,0.08);
+}
+
+/* Custom visual cards for Blank slots in Slide 5 */
+.filled-card {
+  position: absolute;
+  background: white;
+  border: 3px solid #e1f0f5;
+  border-radius: 12px;
+  font-family: var(--btn-font);
+  font-size: 5cqi;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.filled-card.c4 { color: var(--btn-orange); }
+.filled-card.c5 { color: var(--btn-blue); }
+
+@keyframes popIn {
+  0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+
+
+.btn-next {
+  position: absolute;
+  background: #4ade80;
+  color: white;
+  border: 4px solid white;
+  border-radius: 24px;
+  font-family: var(--btn-font);
+  font-size: 4.5cqi;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 6px 12px rgba(74, 222, 128, 0.4);
+  z-index: 10;
+  animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), nextPulse 2s infinite;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes nextPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 6px 12px rgba(74, 222, 128, 0.4); }
+  50% { transform: scale(1.06); box-shadow: 0 10px 20px rgba(74, 222, 128, 0.6); }
+}
+
+.btn-next:hover {
+  background: #22c55e;
+}
+
+.btn-next:active {
+  transform: scale(0.95);
+}
+
+/* Success Banner (for Slide 3) */
+.success-banner {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #ffbe0b;
+  border-radius: 16px;
+  padding: 8px 16px;
+  font-family: var(--btn-font);
+  font-size: 4cqi;
+  font-weight: 900;
+  color: #ffbe0b;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideUpIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  z-index: 9;
+}
+
+@keyframes slideUpIn {
+  0% { transform: translate(-50%, 20px); opacity: 0; }
+  100% { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* Shake Animation for incorrect choices */
+.shake-anim {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+/* Interactive card for slide 4 operator slot */
+.operator-fill {
+  position: absolute;
+  color: var(--btn-blue);
+  font-family: var(--btn-font);
+  font-size: 10cqi;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+  animation: popIn 0.3s ease-out forwards;
+  z-index: 4;
+}
+
+/* Text guidelines below game */
+.game-info {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #0369a1;
+  font-weight: bold;
+  text-align: center;
+  max-width: 90vw;
+  z-index: 10;
+  line-height: 1.4;
+  opacity: 0.8;
+}
