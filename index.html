@@ -15,7 +15,7 @@
     <div class="games-grid">
       <!-- Математика з Крошем -->
       <div class="game-card" onclick="app.launchGame('krosh')">
-        <img src="assets/image1.png" alt="Математика">
+        <img src="assets/image1.png?v=4" alt="Математика">
         <div class="game-card-info">
           <h2>Математика</h2>
           <p>Рахуємо з Крошем</p>
@@ -60,14 +60,10 @@
     <div class="slides-wrapper">
 
       <!-- Слайд 1: Обкладинка -->
-      <div class="slide-item active" id="slide-1" style="background-image: url('assets/image1.png');">
-        <!-- Текстова латка для імені "Софійці" (просто порожній фон, щоб стерти слово) -->
-        <div class="text-patch patch-sign" style="position: absolute; left: 30%; top: 31%; width: 40%; height: 8%; background: #ffe4b5; border-radius: 8px;"></div>
-        
-        <!-- Текстова латка для "Привіт, Софійко! Готова до пригод?" у хмарці -->
-        <div class="text-patch patch-bubble" style="position: absolute; left: 40%; top: 48%; width: 56%; height: 13%; background: white; border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; line-height: 1.2;">
-          <span style="color: #3b2a5c; font-size: 3.5cqi; font-weight: 800;">Привіт, друже!</span>
-          <span style="color: #3b2a5c; font-size: 3.5cqi; font-weight: 800;">Готові до пригод?</span>
+      <div class="slide-item active" id="slide-1" style="background-image: url('assets/image1.png?v=4');">
+        <!-- Чистий текст поверх хмарки (без фону!) -->
+        <div style="position: absolute; left: 45%; top: 46%; width: 45%; text-align: center; color: #3b2a5c; font-size: 3.5cqi; font-weight: 800; line-height: 1.4;">
+          Привіт, друже!<br>Готові до пригод?
         </div>
 
         <!-- Кнопка "ПОЧАТИ" -->
@@ -151,9 +147,11 @@
       </div>
 
       <!-- Слайд 8: Фінал -->
-      <div class="slide-item" id="slide-8" style="background-image: url('assets/image8.png');">
-        <!-- Текстова латка для гендерного закінчення "попрацювала!" -->
-        <div class="text-patch patch-bubble" style="position: absolute; left: 5%; top: 16%; width: 90%; height: 9%; background: #d7f4ff; color: #f43f5e; font-size: 5cqi; font-weight: 800; border-radius: 5px;">супер робота!</div>
+      <div class="slide-item" id="slide-8" style="background-image: url('assets/image8.png?v=4');">
+        <!-- Чистий текст у небі (без фону!) -->
+        <div style="position: absolute; left: 10%; top: 12%; width: 80%; text-align: center; color: #fb7185; font-size: 6cqi; font-weight: 900; text-shadow: 2px 2px 0px white, -2px -2px 0px white, 2px -2px 0px white, -2px 2px 0px white;">
+          Ти сьогодні<br>супер молодець!
+        </div>
         
         <!-- Кнопка рестарту поверх нижнього напису -->
         <button class="overlay-element invisible-btn" id="restart-game" style="left: 7.8%; top: 79.6%; width: 83.3%; height: 17.7%;" title="На головну"></button>
